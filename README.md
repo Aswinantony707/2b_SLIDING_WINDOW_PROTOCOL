@@ -12,39 +12,48 @@ Developed by : ASWIN ANTONY.S
 
 Reg no : 212224220014
 
-Client.py
-```
-import socket 
-s=socket.socket()
-s.bind(('localhost',8080))
-s.listen(5) 
-c,addr=s.accept() 
-while True:
-    i=input("Enter a data: ") 
-    c.send(i.encode()) 
-    ack=c.recv(1024).decode() 
-    if ack: 
-        print(ack) 
-        continue 
-    else: 
-        c.close()
-        break
-```
-Server.py
 
+Client.py
+
+```
+
+import socket
+from datetime import datetime
+ 
+s=socket.socket()
+ 
+s.bind(('localhost',8080))
+ 
+s.listen(5)
+c,addr=s.accept()
+print("Client Address : ",addr)
+ 
+now = datetime.now()
+ 
+c.send(now.strftime("%d/%m/%Y %H:%M:%S").encode())
+ack=c.recv(1024).decode()
+ 
+if ack:
+    print(ack)
+c.close()
+```
+
+
+Server.py
 ```
 
 import socket 
 s=socket.socket() 
 s.connect(('localhost',8080)) 
-while True: 
-    print(s.recv(1024).decode()) 
-    s.send("Acknowledgement Recived".encode()) 
+print(s.getsockname()) 
+print(s.recv(1024).decode()) 
+s.send("acknowledgement recived from the server".encode()) 
 
 ```
 ## OUPUT
 
-![Screenshot 2025-04-12 102735](https://github.com/user-attachments/assets/c63c97bd-d86c-4e5b-a79f-78926759ed07)
+![Screenshot 2025-04-12 105945](https://github.com/user-attachments/assets/8b83008a-0327-4cc1-8e5f-ef3d65f00db3)
+
 
 ## RESULT
 Thus, python program to perform stop and wait protocol was successfully executed
